@@ -23,3 +23,6 @@ Step 2. Add the dependency
 	dependencies {
 	        implementation 'com.github.jansonqiang:touchImageView:v1.0.1'
 	}
+
+
+	![image](https://github.com/jansonqiang/touchImageView/blob/master/images/device-2018-07-25-180757.webm)
