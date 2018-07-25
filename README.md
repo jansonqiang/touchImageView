@@ -1,5 +1,5 @@
 # touchImageView
-This is a android's view , look like ios 
+android 拖拽imageView ，停留在四边框。
 
 
 使用规则
@@ -25,4 +25,4 @@ Step 2. Add the dependency
 	}
 
 
-	![image](https://github.com/jansonqiang/touchImageView/blob/master/images/device-2018-07-25-180757.webm)
+	![image](https://github.com/jansonqiang/touchImageView/blob/master/images/test1.gif)
