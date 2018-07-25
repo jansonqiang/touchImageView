@@ -25,4 +25,4 @@ Step 2. Add the dependency
 	}
 
 
-	![image](https://github.com/jansonqiang/touchImageView/blob/master/images/test1.gif)
+ ![image](https://github.com/jansonqiang/touchImageView/blob/master/images/test1.gif?raw=true)
