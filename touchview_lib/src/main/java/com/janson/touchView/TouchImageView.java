@@ -28,8 +28,7 @@ public class TouchImageView extends AppCompatImageView {
     private float mMarginY; // 上下方留出的空间
     private float mMarginX; // 上下方留出的空间
 
-    private int windowWidth,windowHeight;
-
+    private int windowWidth, windowHeight;
 
 
     private boolean isInit = false;
@@ -37,8 +36,8 @@ public class TouchImageView extends AppCompatImageView {
 
     private float lastX, lastY;
     private float downX, downY;
-    float upX=0,upY=0;
-    long downTime=0,upTime=0;
+    float upX = 0, upY = 0;
+    long downTime = 0, upTime = 0;
 
     private boolean suspendedInLeft = true;
 
@@ -49,6 +48,7 @@ public class TouchImageView extends AppCompatImageView {
     private Handler mHandler;
 
     private int mDelayMillis;
+
     public TouchImageView(Context context) {
         this(context, null);
     }
@@ -59,7 +59,7 @@ public class TouchImageView extends AppCompatImageView {
 
     public TouchImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        initView(context,attrs);
+        initView(context, attrs);
     }
 
 
@@ -81,20 +81,14 @@ public class TouchImageView extends AppCompatImageView {
         // mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         mScreenHeight = getResources().getDisplayMetrics().heightPixels - statusBarHeight;
 
-
-
         // 获取属性
         TypedArray ta = context.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.TouchView, 0, 0);
-        iconImage = ta.getResourceId(R.styleable.TouchView_tv_image,
-                R.mipmap.ic_launcher);
+                R.styleable.TouchImageView, 0, 0);
 
-
-
-        mMarginX  = ta.getDimension(R.styleable.TouchImageView_tiv_marginX,0);
-        mMarginY  = ta.getDimension(R.styleable.TouchImageView_tiv_marginY,0);
-        mPercentX = ta.getInt(R.styleable.TouchImageView_tiv_percentX,0);
-        mDelayMillis = ta.getInteger(R.styleable.TouchImageView_tiv_percentX,500);
+        mMarginX = ta.getDimension(R.styleable.TouchImageView_tiv_marginX, 0);
+        mMarginY = ta.getDimension(R.styleable.TouchImageView_tiv_marginY, 0);
+        mPercentX = ta.getInt(R.styleable.TouchImageView_tiv_percentX, 0);
+        mDelayMillis = ta.getInteger(R.styleable.TouchImageView_tiv_percentX, 500);
 
 
         float minScreenWH = Math.min(mScreenWidth, mScreenHeight);
@@ -107,18 +101,18 @@ public class TouchImageView extends AppCompatImageView {
                 @Override
                 public void onGlobalLayout() {
 
-                    int viewWidth = ((View)getParent()).getWidth();
-                    int  viewHeight = ((View)getParent()).getHeight();
+                    int viewWidth = ((View) getParent()).getWidth();
+                    int viewHeight = ((View) getParent()).getHeight();
 
-                    windowWidth =viewWidth;
+                    windowWidth = viewWidth;
                     windowHeight = viewHeight;
 
-                    moveAnimSingle(this, 0f, 0f, 0f, windowHeight/ 2, 0, false);
+                    moveAnimSingle(this, 0f, 0f, 0f, windowHeight / 2, 0, false);
 
-                    Log.d(TAG, "onGlobalLayout: "+windowWidth+" "+windowHeight);
+                    Log.d(TAG, "onGlobalLayout: " + windowWidth + " " + windowHeight);
 
-                    if(mPercentX!=0&&mMarginX==0){
-                        mMarginX = getWidth() * Math.abs(mPercentX/100f);
+                    if (mPercentX != 0 && mMarginX == 0) {
+                        mMarginX = getWidth() * Math.abs(mPercentX / 100f);
                     }
 
                     getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -129,7 +123,6 @@ public class TouchImageView extends AppCompatImageView {
                 }
             });
         }
-
 
 
     }
@@ -185,8 +178,6 @@ public class TouchImageView extends AppCompatImageView {
         float startX, startY, endX, endY;
 
 
-
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
@@ -206,7 +197,7 @@ public class TouchImageView extends AppCompatImageView {
                 endY = viewY + (eventY - lastY);
 
 
-                if (endY > 0 && endY <windowHeight - getTop() - getHeight())
+                if (endY > 0 && endY < windowHeight - getTop() - getHeight())
                     moveAnimSingle(this, startX, startY, endX, endY, 0, false);
                 lastX = eventX;
                 lastY = eventY;
@@ -230,8 +221,7 @@ public class TouchImageView extends AppCompatImageView {
                 }
 
 
-
-                Log.d(TAG," viewY="+viewY+" mMarginY="+mMarginY+" getHeight()=  "+getHeight());
+                Log.d(TAG, " viewY=" + viewY + " mMarginY=" + mMarginY + " getHeight()=  " + getHeight());
                 // 判断上下
                 if (viewY < mMarginY) {
                     endY = mMarginY;
@@ -240,35 +230,35 @@ public class TouchImageView extends AppCompatImageView {
                 } else {
                     endY = viewY;
                 }
-                Log.d(TAG," viewY="+viewY+" endY="+endY);
+                Log.d(TAG, " viewY=" + viewY + " endY=" + endY);
 
                 //endY = viewY;
                 moveAnimSingle(this, startX, startY, endX, endY, 0, false);
 
-                final float tempStartX= endX;
+                final float tempStartX = endX;
                 float tempEndX2;
-                if(suspendedInLeft){
-                    tempEndX2= endX-mMarginX;
-                }else {
-                    tempEndX2 = endX+mMarginX;
+                if (suspendedInLeft) {
+                    tempEndX2 = endX - mMarginX;
+                } else {
+                    tempEndX2 = endX + mMarginX;
                 }
 
-                final  float tempEndX = tempEndX2;
+                final float tempEndX = tempEndX2;
 
-                final float tempStartY =  startY;
-                final float tempEndY =  endY;
+                final float tempStartY = startY;
+                final float tempEndY = endY;
 
-                if(mMarginX!=0){
+                if (mMarginX != 0) {
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             moveAnimSingle(this, tempStartX, tempStartY, tempEndX, tempEndY, 0, false);
                         }
-                    },mDelayMillis);
+                    }, mDelayMillis);
                 }
 
-              //  Log.d(TAG, String.format("downX = %f upX=%f downY=%f upY=%f  upTime = %d  downTime=%d", downX,upX,downY,upY,upTime,downTime));
-                if(Math.abs(downX-upX)<20 && Math.abs(downY-upY)<10 &&Math.abs(upTime-downTime)<500  )
+                //  Log.d(TAG, String.format("downX = %f upX=%f downY=%f upY=%f  upTime = %d  downTime=%d", downX,upX,downY,upY,upTime,downTime));
+                if (Math.abs(downX - upX) < 20 && Math.abs(downY - upY) < 10 && Math.abs(upTime - downTime) < 500)
                     performClick();
                 break;
 
@@ -276,10 +266,6 @@ public class TouchImageView extends AppCompatImageView {
 
         return true;
     }
-
-
-
-
 
 
 }
