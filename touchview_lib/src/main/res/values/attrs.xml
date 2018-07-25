@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TouchImageView">
+        <attr name="tiv_marginY" format="dimension"/>
+        <attr name="tiv_marginX" format="dimension"/>
+        <attr name="tiv_percentX" format="integer"/>
+        <attr name="tiv_delayMillis" format="integer"/>
+    </declare-styleable>
+
+
+
+
+</resources>
