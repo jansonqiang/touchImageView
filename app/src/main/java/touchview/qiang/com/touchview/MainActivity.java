@@ -1,5 +1,6 @@
 package touchview.qiang.com.touchview;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,8 @@ import android.widget.Toast;
 
 import com.janson.touchView.TouchImageView;
 
-import touchview.qiang.com.touchview.weight.DKDragView;
+import java.lang.reflect.Field;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +37,24 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "点我图片了", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        // 获取屏幕宽高
+        int statusBarHeight = 0;
+        try {
+            Class<?> c = Class.forName("com.android.internal.R$dimen");
+            Object obj = c.newInstance();
+            Field field = c.getField("status_bar_height");
+            statusBarHeight = getResources().getDimensionPixelSize(
+                    Integer.parseInt(field.get(obj).toString()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+       int  mScreenHeight = getResources().getDisplayMetrics().heightPixels - statusBarHeight;
+
+        touchImageView.setPosition(false,mScreenHeight/2);
 
 
         //touchView.setPosition(false,10);

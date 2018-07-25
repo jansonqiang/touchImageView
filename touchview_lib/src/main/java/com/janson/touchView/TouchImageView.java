@@ -88,7 +88,7 @@ public class TouchImageView extends AppCompatImageView {
         mMarginX = ta.getDimension(R.styleable.TouchImageView_tiv_marginX, 0);
         mMarginY = ta.getDimension(R.styleable.TouchImageView_tiv_marginY, 0);
         mPercentX = ta.getInt(R.styleable.TouchImageView_tiv_percentX, 0);
-        mDelayMillis = ta.getInteger(R.styleable.TouchImageView_tiv_percentX, 500);
+        mDelayMillis = ta.getInteger(R.styleable.TouchImageView_tiv_delayMillis, 2000);
 
 
         float minScreenWH = Math.min(mScreenWidth, mScreenHeight);
@@ -127,6 +127,8 @@ public class TouchImageView extends AppCompatImageView {
 
     }
 
+
+
     public void setPosition(boolean isRight, int stayPosY) {
         suspendedInLeft = !isRight;
         if (isInit) {
@@ -152,17 +154,17 @@ public class TouchImageView extends AppCompatImageView {
     private void movePosition(boolean isRight, int stayPosY) {
 
         float endX = 0f;
-        if (isRight) {
-            endX = mScreenWidth - getHeight();
+
+        if (!isRight) { // 左
+            suspendedInLeft = true;
+            endX = 0 - mMarginX;
+        } else { // 右
+            suspendedInLeft = false;
+            endX = mScreenWidth - getWidth()+mMarginX;
         }
 
-        if (stayPosY > 100) {
-            stayPosY = 100;
-        }
 
-        //TODO 这里要改一改
-        float endY = mMarginY +
-                (mScreenHeight - mMarginY * 2 - getWidth()) * ((float) stayPosY / 100);
+        float endY = stayPosY;
 
         moveAnimSingle(this, 0f, 0f, endX, endY, 0, false);
 
@@ -252,7 +254,9 @@ public class TouchImageView extends AppCompatImageView {
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            moveAnimSingle(this, tempStartX, tempStartY, tempEndX, tempEndY, 0, false);
+                            Log.d(TAG,"tempStartX = "+tempStartX+" tempStartY="+tempStartY
+                                    +" tempEndX="+tempEndX+" tempEndY="+tempEndY+" mDelayMillis:"+mDelayMillis);
+                            moveAnimSingle(TouchImageView.this, tempStartX, tempStartY, tempEndX, tempEndY, 0, false);
                         }
                     }, mDelayMillis);
                 }

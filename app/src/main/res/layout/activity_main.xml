@@ -31,10 +31,11 @@
 
     <com.janson.touchView.TouchImageView
         android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="asdfa"
-        android:background="#656554"
+        android:background="@mipmap/ic_launcher"
+        app:tiv_percentX="50"
         />
 
 
